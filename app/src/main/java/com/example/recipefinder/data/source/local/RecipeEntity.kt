@@ -8,6 +8,6 @@ data class RecipeEntity(
     @PrimaryKey val id: Int,
     val title: String,
     val imageUrl: String,
-    val ingredients: List<String>,
+    val ingredients: String,  // Converters kullanarak List<String> türüne dönüştürülecek
     val instructions: String
 )

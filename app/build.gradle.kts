@@ -71,7 +71,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.2")
+    implementation(libs.androidx.runtime.livedata)
     testImplementation ("junit:junit:4.13.2")
+    implementation ("io.coil-kt:coil-compose:1.4.0")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     debugImplementation ("androidx.compose.ui:ui-tooling-preview:1.1.0-alpha05")
@@ -86,6 +88,8 @@ dependencies {
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation ("com.github.chuckerteam.chucker:library:4.0.0")
     implementation ("androidx.work:work-runtime-ktx:2.7.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
 }
 
 kapt {
