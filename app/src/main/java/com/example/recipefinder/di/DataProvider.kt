@@ -2,10 +2,12 @@ package com.example.recipefinder.di
 
 import android.content.Context
 import androidx.room.Room
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.recipefinder.data.RecipeRepository
 import com.example.recipefinder.data.RecipeRepositoryImplementation
 import com.example.recipefinder.data.source.local.RecipeDao
 import com.example.recipefinder.data.source.local.RecipeDatabase
+import com.example.recipefinder.data.source.network.ApiKeyInterceptor
 import com.example.recipefinder.data.source.network.NetworkDataSource
 import com.example.recipefinder.data.source.network.RecipeApiService
 import com.example.recipefinder.data.source.network.RecipeNetworkDataSource
@@ -15,6 +17,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -71,13 +74,31 @@ class DataProviderModule {
     @Singleton
     fun provideRetrofit(okHttpClient: okhttp3.OkHttpClient): retrofit2.Retrofit {
         return retrofit2.Retrofit.Builder()
-            .baseUrl("https://hf-android-app.s3-eu-west-1.amazonaws.com/android-test/")
+            .baseUrl("https://api.spoonacular.com/")
             .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
 
 
     }
+    @Provides
+    @Singleton
+    fun okHttp(
+        @ApplicationContext context: Context,
+        apiKeyInterceptor: ApiKeyInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(apiKeyInterceptor)
+            .addInterceptor(ChuckerInterceptor(context))
+            .build()
+    }
+    @Provides
+    @Singleton
+    fun apiKeyInterceptor(): ApiKeyInterceptor {
+        val apiKey = "6a2a4b467d234b54a7054eb29e967ae9"
+        return ApiKeyInterceptor(apiKey)
+    }
+
 
 }
 
