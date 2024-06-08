@@ -15,7 +15,7 @@ class ConnectivityReceiver : BroadcastReceiver() {
     companion object {
         // action
         const val CONNECTIVITY_ACTION =
-            "com.example.fiveweekproject.utils.ConnectivityReceiver.CONNECTIVITY_ACTION"
+            "com.example.recipefinder.utils.ConnectivityReceiver.CONNECTIVITY_ACTION"
         const val EXTRA_IS_ONLINE = "EXTRA_IS_ONLINE"
     }
 
