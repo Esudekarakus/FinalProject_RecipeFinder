@@ -51,7 +51,7 @@ object DatabasesModule {
             RecipeDatabase::class.java,
             "recipe_database"
 
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 }
 
