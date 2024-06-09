@@ -1,8 +1,9 @@
 package com.example.recipefinder.data.source.network
 
-import com.example.fiveweekproject.utils.ApiResult
-import com.example.fiveweekproject.utils.apiFlow
 
+
+import com.example.recipefinder.utils.ApiResult
+import com.example.recipefinder.utils.apiFlow
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

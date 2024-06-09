@@ -1,7 +1,8 @@
 package com.example.recipefinder.data.source.network
 
-import com.example.fiveweekproject.utils.ApiResult
 
+
+import com.example.recipefinder.utils.ApiResult
 import kotlinx.coroutines.flow.Flow
 
 interface NetworkDataSource {

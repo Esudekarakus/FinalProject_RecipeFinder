@@ -1,4 +1,4 @@
-package com.example.fiveweekproject.utils
+package com.example.recipefinder.utils
 
 import android.util.Log
 import com.google.gson.Gson

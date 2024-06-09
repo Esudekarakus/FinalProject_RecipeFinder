@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.Text
+import com.example.recipefinder.feature.home.HomeScreen
 import com.example.recipefinder.ui.theme.RecipeFinderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +17,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RecipeFinderTheme {
-                Text("Hello, Android!")
+                HomeScreen(
+                    onService = { /*TODO*/ },
+                    onRecipeClick = { /*TODO*/ }
+                )
             }
         }
     }
