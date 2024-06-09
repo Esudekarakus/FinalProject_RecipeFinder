@@ -12,6 +12,8 @@ class RecipeNetworkDataSource @Inject constructor(
 ) : NetworkDataSource {
 
     override suspend fun getRecipes(): Flow<ApiResult<RecipeResponse>> = apiFlow {
-        recipeApiService.getRecipes()
+        val response= recipeApiService.getRecipes()
+        println("API response: $response")
+        response
     }
 }

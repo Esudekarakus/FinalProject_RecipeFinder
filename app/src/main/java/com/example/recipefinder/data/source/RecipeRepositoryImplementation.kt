@@ -6,7 +6,9 @@ import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.NetworkDataSource
 import com.example.recipefinder.data.source.network.RecipeResponse
 import com.example.recipefinder.utils.ApiResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RecipeRepositoryImplementation @Inject constructor(
@@ -18,7 +20,10 @@ class RecipeRepositoryImplementation @Inject constructor(
         recipeResponse.collect { value ->
             when (value){
                 is ApiResult.Success -> {
-                    localSource.insertAll(value.data?.toEntity().orEmpty())
+                    withContext(Dispatchers.IO){
+                        localSource.insertAll(value.data?.toEntity().orEmpty())
+                    }
+
                 }
                 else -> {}
             }

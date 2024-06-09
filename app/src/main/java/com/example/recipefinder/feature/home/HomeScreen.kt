@@ -82,7 +82,7 @@ fun RecipeItem(
             .clickable { onRecipeClick(recipe.id) }
     ) {
         Image(
-            painter = rememberImagePainter(recipe.imageUrl),
+            painter = rememberImagePainter(recipe.image),
             contentDescription = recipe.title,
             modifier = Modifier
                 .size(100.dp)
@@ -99,12 +99,7 @@ fun RecipeItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                text = recipe.ingredients.joinToString(", "),
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+
         }
     }
 }
