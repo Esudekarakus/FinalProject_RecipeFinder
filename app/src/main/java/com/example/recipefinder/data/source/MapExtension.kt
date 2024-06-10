@@ -1,5 +1,7 @@
 package com.example.recipefinder.data.source
 
+import android.text.Spanned
+import androidx.core.text.HtmlCompat
 import com.example.recipefinder.data.source.local.Converters
 import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.Recipe
@@ -56,6 +58,10 @@ fun RecipeEntity.toModel(): RecipeModel {
         id = this.id,
         title = this.title,
         image=this.image,
-        summary=this.summary
+        summary = this.summary ?: "No summary available"
     )
+}
+
+fun String.fromHtml(): Spanned {
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }

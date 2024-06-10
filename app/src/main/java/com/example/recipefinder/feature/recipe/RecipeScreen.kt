@@ -69,7 +69,7 @@ fun RecipeContent(state: RecipeDetailState) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = recipe.summary ?: "No summary available",
+                    text = recipe.plainSummary ?: "No summary available",
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
