@@ -15,5 +15,8 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes")
     fun getAllRecipes(): Flow<List<RecipeEntity>>
 
+    @Query("SELECT * FROM recipes WHERE id = :recipeId LIMIT 1")
+    fun getRecipeById(recipeId: Int): Flow<RecipeEntity?>
+
 
 }

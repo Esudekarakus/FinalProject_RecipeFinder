@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.example.recipefinder.models.RecipeModel
+import com.example.recipefinder.ui.theme.PurpleGrey40
 
 @Composable
 fun HomeScreen(
@@ -44,7 +45,7 @@ fun HomeScreen(
     }
 
 
-    Box(modifier = Modifier.fillMaxSize().background(color = Color.Yellow)) {
+    Box(modifier = Modifier.fillMaxSize().background(color = PurpleGrey40)) {
         when {
             uiState.isLoading -> {
 
