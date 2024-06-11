@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipefinder.data.source.RecipeRepository
+import com.example.recipefinder.data.source.toRecipeModel
 import com.example.recipefinder.models.RecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,9 +32,10 @@ class RecipeVM
     fun getRecipeById(recipeId: Int) {
         viewModelScope.launch {
             _uiState.value = RecipeDetailState(isLoading = true)
-            repository.getRecipeByIdSteam(recipeId).collect { recipe ->
-                if (recipe != null) {
-                    _uiState.value = RecipeDetailState(recipe = recipe)
+            repository.getRecipeById(recipeId).collect { apiResult ->
+                val recipeModel = apiResult.toRecipeModel()
+                if (recipeModel != null) {
+                    _uiState.value = RecipeDetailState(recipe = recipeModel)
                 } else {
                     _uiState.value = RecipeDetailState(isError = true)
                 }

@@ -8,6 +8,7 @@ import com.example.recipefinder.data.source.network.Recipe
 import com.example.recipefinder.data.source.network.RecipeResponse
 
 import com.example.recipefinder.models.RecipeModel
+import com.example.recipefinder.utils.ApiResult
 
 
 fun Recipe.toEntity(): RecipeEntity {
@@ -60,6 +61,35 @@ fun RecipeEntity.toModel(): RecipeModel {
         image=this.image,
         summary = this.summary ?: "No summary available"
     )
+}
+fun Recipe.toModel(): RecipeModel {
+    return RecipeModel(
+        id = this.id,
+        title = this.title,
+        summary = this.summary ?: "No summary available",
+        image = this.image
+    )
+}
+fun ApiResult<RecipeResponse>.toModel(): RecipeModel? {
+    return when (this) {
+        is ApiResult.Success -> {
+            val recipeResponse = this.data
+            if (recipeResponse != null && recipeResponse.recipes.isNotEmpty()) {
+                recipeResponse.recipes.first().toModel()
+            } else {
+                null
+            }
+        }
+        is ApiResult.Error -> null
+        is ApiResult.Loading -> null
+    }
+}
+fun ApiResult<Recipe>.toRecipeModel(): RecipeModel? {
+    return when (this) {
+        is ApiResult.Success -> this.data?.toModel()
+        is ApiResult.Error -> null
+        is ApiResult.Loading -> null
+    }
 }
 
 fun String.fromHtml(): Spanned {

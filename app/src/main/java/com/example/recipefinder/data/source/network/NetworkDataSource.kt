@@ -10,7 +10,7 @@ interface NetworkDataSource {
     //random
     suspend fun getRecipes(): Flow<ApiResult<RecipeResponse>>
 
-    suspend fun getRecipeById(id: Int): Flow<ApiResult<RecipeResponse>>
+    suspend fun getRecipeById(id: Int): Flow<ApiResult<Recipe>>
 
     suspend fun getBreakfastRecipes(): Flow<ApiResult<RecipeComplexResponse>>
     suspend fun getDessertRecipes(): Flow<ApiResult<RecipeComplexResponse>>

@@ -3,6 +3,7 @@ package com.example.recipefinder.data.source
 import com.example.recipefinder.data.source.local.RecipeDao
 import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.NetworkDataSource
+import com.example.recipefinder.data.source.network.Recipe
 import com.example.recipefinder.data.source.network.RecipeComplexResponse
 import com.example.recipefinder.data.source.network.RecipeResponse
 import com.example.recipefinder.models.RecipeModel
@@ -46,7 +47,7 @@ class RecipeRepositoryImplementation @Inject constructor(
 
     }
 
-    override suspend fun getRecipeById(id: Int): Flow<ApiResult<RecipeResponse>> {
+    override suspend fun getRecipeById(id: Int): Flow<ApiResult<Recipe>> {
         return networkDataSource.getRecipeById(id)
     }
 

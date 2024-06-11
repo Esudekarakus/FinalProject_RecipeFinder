@@ -11,7 +11,7 @@ interface RecipeApiService {
     suspend fun getRecipes(): Response<RecipeResponse>
 
     @GET("recipes/{id}/information")
-    suspend fun getRecipeById(@Path("id") id: Int): Response<RecipeResponse>
+    suspend fun getRecipeById(@Path("id") id: Int): Response<Recipe>
 
     @GET("recipes/complexSearch")
     suspend fun getRecipesComplex(): Response<RecipeResponse>
