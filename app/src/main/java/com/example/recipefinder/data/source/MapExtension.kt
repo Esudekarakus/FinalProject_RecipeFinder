@@ -6,7 +6,7 @@ import com.example.recipefinder.data.source.local.Converters
 import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.Recipe
 import com.example.recipefinder.data.source.network.RecipeResponse
-import com.example.recipefinder.data.source.network.RecipeResult
+
 import com.example.recipefinder.models.RecipeModel
 
 

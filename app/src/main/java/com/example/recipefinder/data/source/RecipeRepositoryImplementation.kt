@@ -1,9 +1,9 @@
 package com.example.recipefinder.data.source
 
-import com.example.recipefinder.data.RecipeRepository
 import com.example.recipefinder.data.source.local.RecipeDao
 import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.NetworkDataSource
+import com.example.recipefinder.data.source.network.RecipeComplexResponse
 import com.example.recipefinder.data.source.network.RecipeResponse
 import com.example.recipefinder.models.RecipeModel
 import com.example.recipefinder.utils.ApiResult
@@ -22,9 +22,9 @@ class RecipeRepositoryImplementation @Inject constructor(
         recipeResponse.collect { value ->
             when (value) {
                 is ApiResult.Success -> {
-                    withContext(Dispatchers.IO) {
-                        localSource.insertAll(value.data?.toEntity().orEmpty())
-                    }
+                   withContext(Dispatchers.IO) {
+                       localSource.insertAll(value.data?.toEntity().orEmpty())
+                   }
 
                 }
 
@@ -45,4 +45,26 @@ class RecipeRepositoryImplementation @Inject constructor(
 
 
     }
+
+    override suspend fun getRecipeById(id: Int): Flow<ApiResult<RecipeResponse>> {
+        return networkDataSource.getRecipeById(id)
+    }
+
+    override suspend fun getBreakfastRecipes(): Flow<ApiResult<RecipeComplexResponse>> {
+        return networkDataSource.getBreakfastRecipes()
+    }
+
+    override suspend fun getDessertRecipes(): Flow<ApiResult<RecipeComplexResponse>> {
+        return networkDataSource.getDessertRecipes()
+    }
+
+    override suspend fun getMainCourseRecipes(): Flow<ApiResult<RecipeComplexResponse>> {
+        return networkDataSource.getMainCourseRecipes()
+    }
+
+    override suspend fun getVeganRecipes(): Flow<ApiResult<RecipeComplexResponse>> {
+        return networkDataSource.getVeganRecipes()
+    }
+
+
 }

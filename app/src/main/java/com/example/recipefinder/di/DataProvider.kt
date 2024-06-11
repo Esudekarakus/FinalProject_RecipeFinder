@@ -3,7 +3,7 @@ package com.example.recipefinder.di
 import android.content.Context
 import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.example.recipefinder.data.RecipeRepository
+import com.example.recipefinder.data.source.RecipeRepository
 import com.example.recipefinder.data.source.RecipeRepositoryImplementation
 import com.example.recipefinder.data.source.local.RecipeDao
 import com.example.recipefinder.data.source.local.RecipeDatabase

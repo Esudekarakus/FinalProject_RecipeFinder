@@ -16,4 +16,25 @@ class RecipeNetworkDataSource @Inject constructor(
         println("API response: $response")
         response
     }
+    override suspend fun getRecipeById(id: Int) = apiFlow {
+        recipeApiService.getRecipeById(id)
+    }
+
+    override suspend fun getBreakfastRecipes(): Flow<ApiResult<RecipeComplexResponse>> = apiFlow {
+        recipeApiService.getBreakfastRecipes()
+    }
+
+    override suspend fun getDessertRecipes(): Flow<ApiResult<RecipeComplexResponse>> = apiFlow {
+        recipeApiService.getDessertRecipes()
+    }
+
+    override suspend fun getMainCourseRecipes(): Flow<ApiResult<RecipeComplexResponse>> = apiFlow {
+        recipeApiService.getMainCourseRecipes()
+    }
+
+    override suspend fun getVeganRecipes(): Flow<ApiResult<RecipeComplexResponse>> = apiFlow {
+        recipeApiService.getVeganRecipes()
+    }
+
+
 }

@@ -3,8 +3,7 @@ package com.example.recipefinder.feature.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.recipefinder.data.RecipeRepository
-import com.example.recipefinder.data.source.local.RecipeEntity
+import com.example.recipefinder.data.source.RecipeRepository
 import com.example.recipefinder.data.source.toModel
 import com.example.recipefinder.models.RecipeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
