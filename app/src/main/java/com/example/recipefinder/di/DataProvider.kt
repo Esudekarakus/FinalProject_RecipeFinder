@@ -95,7 +95,7 @@ class DataProviderModule {
     @Provides
     @Singleton
     fun apiKeyInterceptor(): ApiKeyInterceptor {
-        val apiKey = "6a2a4b467d234b54a7054eb29e967ae9"
+        val apiKey = "976d4d8ab90c4369b9d7b19ee07be3c7"
         return ApiKeyInterceptor(apiKey)
     }
 

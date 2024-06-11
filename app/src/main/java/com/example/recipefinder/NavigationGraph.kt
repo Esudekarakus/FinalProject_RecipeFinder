@@ -56,9 +56,9 @@ fun RecipeAppNavigationGraph(
         composable(
             route = Destination.HOME
         ) {
-            HomeScreen(onService = {
+            HomeScreen(
 
-            }){
+            ){
                 navActions.navigateToRecipeDetail(it)
             }
         }

@@ -5,6 +5,7 @@ import androidx.core.text.HtmlCompat
 import com.example.recipefinder.data.source.local.Converters
 import com.example.recipefinder.data.source.local.RecipeEntity
 import com.example.recipefinder.data.source.network.Recipe
+import com.example.recipefinder.data.source.network.RecipeComplexResult
 import com.example.recipefinder.data.source.network.RecipeResponse
 
 import com.example.recipefinder.models.RecipeModel
@@ -90,6 +91,14 @@ fun ApiResult<Recipe>.toRecipeModel(): RecipeModel? {
         is ApiResult.Error -> null
         is ApiResult.Loading -> null
     }
+}
+fun RecipeComplexResult.toModel(): RecipeModel {
+    return RecipeModel(
+        id = this.id,
+        title = this.title,
+        image = this.image,
+        summary = "No summary available"
+    )
 }
 
 fun String.fromHtml(): Spanned {

@@ -20,18 +20,7 @@ class RecipeRepositoryImplementation @Inject constructor(
 ): RecipeRepository {
     override suspend fun getRepices(): Flow<ApiResult<RecipeResponse>> {
         val recipeResponse = networkDataSource.getRecipes()
-        recipeResponse.collect { value ->
-            when (value) {
-                is ApiResult.Success -> {
-                   withContext(Dispatchers.IO) {
-                       localSource.insertAll(value.data?.toEntity().orEmpty())
-                   }
 
-                }
-
-                else -> {}
-            }
-        }
         return recipeResponse
     }
 
