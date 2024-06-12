@@ -19,19 +19,15 @@ import com.example.recipefinder.feature.home.HomeScreen
 import com.example.recipefinder.feature.recipe.RecipeScreen
 import kotlinx.coroutines.CoroutineScope
 import com.example.recipefinder.feature.splashScreen.SplashScreen
-
 @Composable
 fun RecipeAppNavigationGraph(
     modifier: Modifier,
     navController: NavHostController = rememberNavController(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    startDestination: String=Destination.SPLASH,
-    navActions: NavigationActions = remember (navController){
+    startDestination: String = Destination.HOME,
+    navActions: NavigationActions = remember(navController) {
         NavigationActions(navController)
     },
-    onService : (Boolean) ->Unit,
-
-
+    onService: (Boolean) -> Unit,
 ) {
     val currentNavigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentNavigationBackStackEntry?.destination?.route ?: startDestination
@@ -42,18 +38,14 @@ fun RecipeAppNavigationGraph(
         modifier = modifier
     ) {
         composable(
-            route = Destination.SPLASH
+            route = Destination.HOME
         ) {
-            SplashScreen(
-                onSplashFinished = {
-                    if (it) {
-                        navActions.navigateToHome()
-                    } else {
-
-                    }
-                }
+            HomeScreen(
+                onRecipeClick = { recipeId: Int -> navActions.navigateToRecipeDetail(recipeId) },
+                navController = navController
             )
         }
+
         composable(
             route = Destination.FAVORITES_SCREEN
         ) {
@@ -66,26 +58,17 @@ fun RecipeAppNavigationGraph(
         }
 
         composable(
-            route = Destination.HOME
-        ) {
-            HomeScreen(
-                onRecipeClick = { recipeId: Int -> navActions.navigateToRecipeDetail(recipeId) },
-                navController = navController
-            )
-        }
-
-        composable(
             route = Destination.RECIPE_DETAIL
         ) { arguments ->
-            val recipeId = arguments.arguments?.getString("id")?: "0"
-            RecipeScreen (recipeId = recipeId.toInt(), navController=navController)
-
+            val recipeId = arguments.arguments?.getString("id") ?: "0"
+            RecipeScreen(recipeId = recipeId.toInt(), navController = navController)
         }
+
         composable(
             route = Destination.FAVORITES_DETAIL
         ) { arguments ->
             val recipeId = arguments.arguments?.getString("id") ?: "0"
-            FavoriteDetailScreen(recipeId = recipeId.toInt(), navController=navController)
+            FavoriteDetailScreen(recipeId = recipeId.toInt(), navController = navController)
         }
     }
 }
