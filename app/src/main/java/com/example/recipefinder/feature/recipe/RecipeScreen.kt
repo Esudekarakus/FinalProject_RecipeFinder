@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -58,10 +60,13 @@ fun RecipeContent(state: RecipeDetailState , navController: NavController) {
                     TopAppBar(
                         title = { Text("Recipe Detail") },
                         navigationIcon = {
-                            IconButton(onClick = {
-                                navController.popBackStack()
-                            }) {
+                            IconButton(onClick = { navController.popBackStack() }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = { /* Handle favorite button click */ }) {
+                                Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = Color.Red)
                             }
                         }
                     )
