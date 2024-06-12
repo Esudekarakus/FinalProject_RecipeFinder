@@ -21,8 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +33,7 @@ import com.example.recipefinder.feature.favorites.FavoriteVM
 @Composable
 fun FavoriteScreen(
     viewModel: FavoriteVM = hiltViewModel(),
-    onBackClick: () -> Unit,
+
     onRecipeClick: (Int) -> Unit
 ) {
     val favoriteRecipes = viewModel.favoriteRecipes.collectAsState()
@@ -44,7 +43,7 @@ fun FavoriteScreen(
             TopAppBar(
                 title = { Text("Favorite Recipes") },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = {}) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
@@ -87,19 +86,23 @@ fun RecipeItem(recipe: RecipeModel, onRecipeClick: (Int) -> Unit) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val imageSize = with(LocalDensity.current) { 120.dp.toPx().toInt() }
             Image(
-                painter = rememberImagePainter(recipe.image), // Burada gerçek resminizi yükleyin
+                painter = rememberImagePainter(recipe.image),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
+                modifier = Modifier.size(imageSize.dp)
+            )
+            Column(
                 modifier = Modifier
-                    .size(80.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = recipe.title,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    text = recipe.title,
+                    fontSize = 18.sp,
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }

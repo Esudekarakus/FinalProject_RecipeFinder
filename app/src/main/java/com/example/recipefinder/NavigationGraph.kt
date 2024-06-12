@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.recipefinder.feature.favorites.FavoriteScreen
 import com.example.recipefinder.feature.home.HomeScreen
 import com.example.recipefinder.feature.recipe.RecipeScreen
 import kotlinx.coroutines.CoroutineScope
@@ -52,15 +53,22 @@ fun RecipeAppNavigationGraph(
                 }
             )
         }
+        composable(
+            route = Destination.FAVORITES_SCREEN
+        ) {
+            FavoriteScreen(onRecipeClick = { recipeId: Int ->
+                navActions.navigateToFavoriteDetail(recipeId)
+            })
+        }
+
 
         composable(
             route = Destination.HOME
         ) {
             HomeScreen(
-
-            ){
-                navActions.navigateToRecipeDetail(it)
-            }
+                onRecipeClick = { recipeId: Int -> navActions.navigateToRecipeDetail(recipeId) },
+                navController = navController
+            )
         }
 
         composable(
@@ -69,6 +77,12 @@ fun RecipeAppNavigationGraph(
             val recipeId = arguments.arguments?.getString("id")?: "0"
             RecipeScreen (recipeId = recipeId.toInt(),)
 
+        }
+        composable(
+            route = Destination.FAVORITES_DETAIL
+        ) { arguments ->
+            val recipeId = arguments.arguments?.getString("id") ?: "0"
+            RecipeScreen(recipeId = recipeId.toInt(),)
         }
     }
 }

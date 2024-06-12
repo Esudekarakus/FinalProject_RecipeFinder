@@ -29,11 +29,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //RecipeAppNavigationGraph(
-                       // modifier = Modifier.fillMaxSize(),
-                       //onService = { /* Implement this if needed */ })
+                    RecipeAppNavigationGraph(
+                        modifier = Modifier.fillMaxSize(),
+                       onService = { /* Implement this if needed */ })
 
-                      FavoriteScreen(onRecipeClick = {}, onBackClick = {})
                 }
             }
         }

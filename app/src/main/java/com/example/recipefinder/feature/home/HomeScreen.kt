@@ -22,7 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.recipefinder.NavigationActions
 import com.example.recipefinder.models.RecipeModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,10 +32,13 @@ import com.example.recipefinder.models.RecipeModel
 
 fun HomeScreen(
     viewModel: HomeVM = hiltViewModel(),
-    onRecipeClick: (Int) -> Unit
+    onRecipeClick: (Int) -> Unit,
+    navController: NavController
 ) {
     val uiState = viewModel.uiState.collectAsState().value
-
+    val navActions = remember(navController) {
+        NavigationActions(navController)
+    }
     LaunchedEffect(Unit) {
         viewModel.getRandomRecipe()
         viewModel.getBreakfastRecipes()
@@ -51,7 +56,9 @@ fun HomeScreen(
                     IconButton(onClick = { /* Bildirimleri Aç */ }) {
                         Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
                     }
-                    IconButton(onClick = { /* Favorileri Göster */ }) {
+                    IconButton(onClick = {
+                        navActions.navigateToFavoritesScreen() // Favori ekranına yönlendirme işlevi burada çağrılır
+                    }) {
                         Icon(Icons.Filled.FavoriteBorder, contentDescription = "Favorites")
                     }
                 }
