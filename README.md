@@ -13,9 +13,9 @@ RecipeFinder is a mobile application that allows users to discover and save thei
 
 ## Screenshots
 
-![Home Screen](/screenshots/HomeScreen1.png)
-![Recipe Detail Screen](/screenshots/HomeScreen3.png)
-![Favorites Screen](/screenshots/FavoriteRecipes.png)
+![Home Screen](/HomeScreen1.png)
+![Recipe Detail Screen](/HomeScreen3.png)
+![Favorites Screen](/FavoriteRecipes.png)
 
 ## Getting Started
 
