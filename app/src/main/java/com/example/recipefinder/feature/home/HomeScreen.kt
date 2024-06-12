@@ -79,8 +79,8 @@ fun HomeScreen(
 
                         RecommendedRecipeCard(
                             recipe = uiState.randomRecipe,
-                            onRecipeClick = onRecipeClick,
-                            viewModel = viewModel
+                            onRecipeClick = onRecipeClick
+
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -123,23 +123,9 @@ fun GreetingSection() {
 fun RecommendedRecipeCard(
     recipe: RecipeModel,
     onRecipeClick: (Int) -> Unit,
-    viewModel: HomeVM
+
 ) {
-    var isFavorite by remember { mutableStateOf(false) }
 
-    // Favori durumunu kontrol etmek için bir işlev
-    val checkAndToggleFavorite: () -> Unit = {
-        viewModel.checkIfFavorite(recipe.id) { favorite ->
-            isFavorite = favorite
-        }
-        viewModel.toggleFavorite(recipe) { newFavorite ->
-            isFavorite = newFavorite
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        checkAndToggleFavorite() // Başlangıçta favori durumunu kontrol et ve güncelle
-    }
 
     Row(
         modifier = Modifier
@@ -172,17 +158,8 @@ fun RecommendedRecipeCard(
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                // Kalbe tıklama işlevi buraya taşındı
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "Favorite",
-                    tint = if (isFavorite) Color.Red else Color.Gray, // Favori ise kırmızı, değilse gri
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            checkAndToggleFavorite() // Kalbe tıkladığında favori durumu kontrol et ve güncelle
-                        }
-                )
+
+
             }
         }
     }

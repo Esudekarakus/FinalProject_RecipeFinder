@@ -45,12 +45,12 @@ fun FavoriteDetailScreen(
         viewModel.getByIdSteam(recipeId)
     }
 
-    FavoriteDetailContent(uiState.value, navController)
+    FavoriteDetailContent(uiState.value, navController, viewModel)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavController) {
+fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavController, viewModel: FavoriteDetailVM) {
     when {
         state.isLoading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -76,8 +76,29 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
                             }
                         },
                         actions = {
-                            IconButton(onClick = { /* Handle favorite button click */ }) {
-                                Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = Color.Red)
+                            IconButton(onClick = {
+                                viewModel.toggleFavorite(recipe) { isFavorite ->
+                                    // Favori durumu değiştiğinde yapılacak işlemler burada gerçekleştirilir
+                                    // Örneğin, kalp ikonunun rengini değiştirebiliriz
+                                    val iconTint = if (isFavorite) Color.Red else Color.Gray
+                                    // Kalp ikonunun rengini güncelleme
+                                    iconTint.value?.let {
+                                        viewModel.uiState.value.recipe?.let { recipe ->
+                                            recipe.isFavorite = isFavorite
+                                            viewModel.checkIfFavorite(recipe.id) { isFav ->
+                                                recipe.isFavorite = isFav
+                                            }
+                                        }
+                                        navController.popBackStack()
+                                    }
+
+                                }
+                            }) {
+                                Icon(
+                                    Icons.Filled.Favorite,
+                                    contentDescription = "Favorite",
+                                    tint = if (recipe.isFavorite) Color.Red else Color.Gray
+                                )
                             }
                         }
                     )
