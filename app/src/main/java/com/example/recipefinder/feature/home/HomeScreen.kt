@@ -18,8 +18,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -51,7 +55,7 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Recipe App") },
-                colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                colors = TopAppBarDefaults.topAppBarColors(Color(0xFFFF7F50)),
                 actions = {
                     IconButton(onClick = { /* Bildirimleri Aç */ }) {
                         Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
@@ -68,7 +72,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFFFC0CB))
+                    .background(Color.White)
                     .padding(padding)
                     .padding(16.dp)
             ) {
@@ -123,10 +127,7 @@ fun GreetingSection() {
 fun RecommendedRecipeCard(
     recipe: RecipeModel,
     onRecipeClick: (Int) -> Unit,
-
 ) {
-
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -135,10 +136,13 @@ fun RecommendedRecipeCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            shape = RoundedCornerShape(16.dp), // Kenarları yuvarlatmak için şekil ayarlandı
+            elevation = CardDefaults.elevatedCardElevation(10.dp), // Gölge efekti eklendi
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFE0FFE0) )
         ) {
             Column(
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.padding(16.dp) // Column içindeki metinler için padding eklendi
             ) {
                 Image(
                     painter = rememberImagePainter(recipe.image),
@@ -150,20 +154,28 @@ fun RecommendedRecipeCard(
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = recipe.title,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black // Kontrast oluşturacak bir renk kullanıldı
+                    ),
+                    modifier = Modifier.fillMaxWidth(), // Metnin genişliğinin tamamını kaplaması için modifier eklendi
+                    textAlign = TextAlign.Center // Metnin ortalanması için textAlign eklendi
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = recipe.plainSummary,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall.copy(color = Color.Black),
+                    modifier = Modifier.padding(horizontal = 12.dp) // Text için padding eklendi
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-
-
             }
         }
     }
 }
+
+
+
+
 
 
 
@@ -193,21 +205,36 @@ fun RecipeCategorySection(
 
 @Composable
 fun RecipeListItem(recipe: RecipeModel, onRecipeClick: (Int) -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Card(
         modifier = Modifier
             .padding(8.dp)
-            .width(150.dp)
-            .clickable { onRecipeClick(recipe.id) }
+            .size(300.dp) // Kartın boyutunu iki katına çıkardık
+            .clickable { onRecipeClick(recipe.id) },
+        shape = RoundedCornerShape(16.dp), // Kenarları yuvarlatmak için şekil ayarlandı
+        elevation = CardDefaults.elevatedCardElevation(8.dp), // Gölge efekti
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF9C4)) // Sarı renk
     ) {
-        Image(
-            painter = rememberImagePainter(recipe.image),
-            contentDescription = null,
-            modifier = Modifier.size(100.dp)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = recipe.title, style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(8.dp))
-        //Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = Color.Red, modifier = Modifier.size(24.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Image(
+                painter = rememberImagePainter(recipe.image),
+                contentDescription = null,
+                modifier = Modifier.size(200.dp) // Resim boyutunu da kartla orantılı büyüttük
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = recipe.title,
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 }
+
+
