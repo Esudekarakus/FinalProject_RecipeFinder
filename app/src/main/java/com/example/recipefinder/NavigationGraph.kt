@@ -18,7 +18,7 @@ import com.example.recipefinder.feature.favorites.FavoriteScreen
 import com.example.recipefinder.feature.home.HomeScreen
 import com.example.recipefinder.feature.recipe.RecipeScreen
 import kotlinx.coroutines.CoroutineScope
-import com.example.recipefinder.feature.splashScreen.SplashScreen
+
 @Composable
 fun RecipeAppNavigationGraph(
     modifier: Modifier,
