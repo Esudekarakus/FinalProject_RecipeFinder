@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -50,7 +51,7 @@ fun FavoriteDetailScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavController, viewModel: FavoriteDetailVM) {
+fun FavoriteDetailContent(state: FavoriteDetailState, navController: NavController, viewModel: FavoriteDetailVM) {
     when {
         state.isLoading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -70,6 +71,7 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
                 topBar = {
                     TopAppBar(
                         title = { Text("Recipe Detail") },
+                        colors = TopAppBarDefaults.topAppBarColors(Color(0xFFFF7F50)),
                         navigationIcon = {
                             IconButton(onClick = { navController.popBackStack() }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -78,10 +80,7 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
                         actions = {
                             IconButton(onClick = {
                                 viewModel.toggleFavorite(recipe) { isFavorite ->
-                                    // Favori durumu değiştiğinde yapılacak işlemler burada gerçekleştirilir
-                                    // Örneğin, kalp ikonunun rengini değiştirebiliriz
                                     val iconTint = if (isFavorite) Color.Red else Color.Gray
-                                    // Kalp ikonunun rengini güncelleme
                                     iconTint.value?.let {
                                         viewModel.uiState.value.recipe?.let { recipe ->
                                             recipe.isFavorite = isFavorite
@@ -103,7 +102,7 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
                         }
                     )
                 },
-                content = { padding->
+                content = { padding ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -119,18 +118,52 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
                                     .height(200.dp),
                                 contentScale = ContentScale.Crop
                             )
+                        } ?: run {
+                            Spacer(modifier = Modifier.height(200.dp))
                         }
+
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = recipe.title,
-                            style = MaterialTheme.typography.headlineLarge
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = recipe.plainSummary ?: "No summary available",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(bottom = 8.dp)
                         )
 
+                        Text(
+                            text = recipe.plainSummary ?: "Summary not available",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
+                        Text(
+                            text = "Instructions",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = recipe.plainInstructions?: "Instructions not available",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+
+                        Text(
+                            text = "Health Score: ${recipe.healthScore}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = "Cooking Time: ${recipe.cookingMinutes ?: "Not Given"} minutes",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = "Likes: ${recipe.aggregateLikes}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
                     }
                 }
             )
@@ -143,3 +176,4 @@ fun FavoriteDetailContent(state: FavoriteDetailState , navController: NavControl
         }
     }
 }
+

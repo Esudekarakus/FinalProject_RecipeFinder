@@ -61,7 +61,13 @@ fun RecipeEntity.toModel(): RecipeModel {
         title = this.title,
         image=this.image,
         summary = this.summary ?: "No summary available",
-        isFavorite = this.isFavorite
+        isFavorite = this.isFavorite,
+        healthScore= this.healthScore,
+        aggregateLikes = this.aggregateLikes,
+
+        instructions = this.instructions,
+        cookingMinutes = this.cookingMinutes,
+
     )
 }
 fun Recipe.toModel(): RecipeModel {
@@ -69,7 +75,13 @@ fun Recipe.toModel(): RecipeModel {
         id = this.id,
         title = this.title,
         summary = this.summary ?: "No summary available",
-        image = this.image
+        image = this.image,
+
+        healthScore= this.healthScore,
+        aggregateLikes = this.aggregateLikes,
+
+        instructions = this.instructions,
+        cookingMinutes = this.cookingMinutes,
     )
 }
 fun ApiResult<RecipeResponse>.toModel(): RecipeModel? {
@@ -98,7 +110,13 @@ fun RecipeComplexResult.toModel(): RecipeModel {
         id = this.id,
         title = this.title,
         image = this.image,
-        summary = "No summary available"
+        summary = "No summary available",
+        isFavorite = false,
+        healthScore= 0,
+        aggregateLikes = 0,
+
+        instructions = null,
+        cookingMinutes = 0,
     )
 }
 fun RecipeModel.toEntity(): RecipeEntity {
@@ -109,9 +127,9 @@ fun RecipeModel.toEntity(): RecipeEntity {
         summary = this.summary,
         servings = 0,
         preparationMinutes = 0,
-        cookingMinutes = 0,
-        aggregateLikes = 0,
-        healthScore = 0,
+        cookingMinutes = this.cookingMinutes,
+        aggregateLikes = this.aggregateLikes,
+        healthScore = this.healthScore,
         creditsText = null,
         sourceName = null,
         pricePerServing = 0.0,
@@ -122,7 +140,7 @@ fun RecipeModel.toEntity(): RecipeEntity {
         dishTypes = emptyList(),
         diets = emptyList(),
         occasions = emptyList(),
-        instructions = null,
+        instructions = this.instructions,
         spoonacularScore = 0.0,
         cheap = false,
         veryHealthy = false,

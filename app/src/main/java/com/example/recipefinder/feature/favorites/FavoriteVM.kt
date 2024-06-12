@@ -57,6 +57,11 @@ class FavoriteVM @Inject constructor(
             title = this.title,
             image = this.image,
             summary = this.summary ?: "No summary available",
+            isFavorite = this.isFavorite,
+            healthScore= this.healthScore,
+            aggregateLikes = this.aggregateLikes,
+            instructions = this.instructions,
+            cookingMinutes = this.cookingMinutes,
         )
     }
 }

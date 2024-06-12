@@ -59,6 +59,7 @@ fun RecipeContent(state: RecipeDetailState , navController: NavController , view
                 topBar = {
                     TopAppBar(
                         title = { Text("Recipe Detail") },
+                        colors = TopAppBarDefaults.topAppBarColors(Color(0xFFFF7F50)),
                         navigationIcon = {
                             IconButton(onClick = { navController.popBackStack() }) {
                                 Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -108,18 +109,52 @@ fun RecipeContent(state: RecipeDetailState , navController: NavController , view
                                     .height(200.dp),
                                 contentScale = ContentScale.Crop
                             )
+                        } ?: run {
+                            Spacer(modifier = Modifier.height(200.dp))
                         }
+
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = recipe.title,
-                            style = MaterialTheme.typography.headlineLarge
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = recipe.plainSummary ?: "No summary available",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(bottom = 8.dp)
                         )
 
+                        Text(
+                            text = recipe.plainSummary ?: "Summary not available",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
+                        Text(
+                            text = "Instructions",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = recipe.plainInstructions?: "Instructions not available",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+
+                        Text(
+                            text = "Health Score: ${recipe.healthScore}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = "Cooking Time: ${recipe.cookingMinutes ?: "Not Given"} minutes",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+
+                        Text(
+                            text = "Likes: ${recipe.aggregateLikes}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
                     }
                 }
             )
