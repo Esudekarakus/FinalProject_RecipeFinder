@@ -7,7 +7,8 @@ data class RecipeModel(
     val id: Int,
     val title: String,
     val image: String?,
-    val summary: String
+    val summary: String,
+    var isFavorite: Boolean = false
 ) {
     val plainSummary: String
         get() = summary.fromHtml().toString()

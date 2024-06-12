@@ -18,7 +18,7 @@ fun Recipe.toEntity(): RecipeEntity {
         title = title,
         instructions = this.instructions,
         image = this.image,
-
+        isFavorite = false,
         vegetarian = this.vegetarian,
         vegan = this.vegan,
         glutenFree = this.glutenFree,
@@ -60,7 +60,8 @@ fun RecipeEntity.toModel(): RecipeModel {
         id = this.id,
         title = this.title,
         image=this.image,
-        summary = this.summary ?: "No summary available"
+        summary = this.summary ?: "No summary available",
+        isFavorite = this.isFavorite
     )
 }
 fun Recipe.toModel(): RecipeModel {
@@ -100,7 +101,45 @@ fun RecipeComplexResult.toModel(): RecipeModel {
         summary = "No summary available"
     )
 }
-
+fun RecipeModel.toEntity(): RecipeEntity {
+    return RecipeEntity(
+        id = this.id,
+        title = this.title,
+        image = this.image,
+        summary = this.summary,
+        servings = 0,
+        preparationMinutes = 0,
+        cookingMinutes = 0,
+        aggregateLikes = 0,
+        healthScore = 0,
+        creditsText = null,
+        sourceName = null,
+        pricePerServing = 0.0,
+        readyInMinutes = 0,
+        sourceUrl = null,
+        imageType = null,
+        cuisines = emptyList(),
+        dishTypes = emptyList(),
+        diets = emptyList(),
+        occasions = emptyList(),
+        instructions = null,
+        spoonacularScore = 0.0,
+        cheap = false,
+        veryHealthy = false,
+        veryPopular = false,
+        sustainable = false,
+        lowFodmap = false,
+        weightWatcherSmartPoints = 0,
+        dairyFree = false,
+        glutenFree = false,
+        gaps = null,
+        vegetarian = false,
+        vegan = false,
+        originalId = null,
+        spoonacularSourceUrl = null,
+        isFavorite = this.isFavorite
+        )
+}
 fun String.fromHtml(): Spanned {
     return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }

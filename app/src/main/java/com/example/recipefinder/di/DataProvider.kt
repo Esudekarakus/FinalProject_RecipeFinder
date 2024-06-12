@@ -3,8 +3,10 @@ package com.example.recipefinder.di
 import android.content.Context
 import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.recipefinder.data.source.DataStoreManager
 import com.example.recipefinder.data.source.RecipeRepository
 import com.example.recipefinder.data.source.RecipeRepositoryImplementation
+import com.example.recipefinder.data.source.dataStore
 import com.example.recipefinder.data.source.local.RecipeDao
 import com.example.recipefinder.data.source.local.RecipeDatabase
 import com.example.recipefinder.data.source.network.ApiKeyInterceptor
@@ -95,10 +97,20 @@ class DataProviderModule {
     @Provides
     @Singleton
     fun apiKeyInterceptor(): ApiKeyInterceptor {
-        val apiKey = "976d4d8ab90c4369b9d7b19ee07be3c7"
+        val apiKey = "6a2a4b467d234b54a7054eb29e967ae9"
         return ApiKeyInterceptor(apiKey)
     }
 
 
 }
 
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideDataStoreManager(@ApplicationContext context: Context): DataStoreManager {
+        return DataStoreManager(context.dataStore)
+    }
+}

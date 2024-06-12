@@ -56,5 +56,26 @@ class RecipeRepositoryImplementation @Inject constructor(
         return networkDataSource.getVeganRecipes()
     }
 
+    override suspend fun insertRecipe(recipe: RecipeEntity) {
+        println("Recipe : ${recipe.isFavorite}")
+        withContext(Dispatchers.IO){
+            localSource.insert(recipe)
+            recipe.isFavorite = true
+            println("Recipe : ${recipe.isFavorite}")
+
+            println("Recipe inserted: $recipe")
+        }
+    }
+
+    override suspend fun deleteRecipe(recipe: RecipeEntity) {
+        println("Recipe : ${recipe.isFavorite}")
+        withContext(Dispatchers.IO) {
+            localSource.delete(recipe)
+            recipe.isFavorite = false
+            println("Recipe : ${recipe.isFavorite}")
+        }
+        println("Recipe deleted: $recipe")
+    }
+
 
 }

@@ -40,7 +40,8 @@ data class RecipeEntity(
 
     val originalId: Int?,
     val spoonacularScore: Double,
-    val spoonacularSourceUrl: String?
+    val spoonacularSourceUrl: String?,
+    var isFavorite: Boolean
 )
 
 data class AnalyzedInstructionEntity(

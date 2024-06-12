@@ -18,5 +18,8 @@ interface RecipeRepository {
     suspend fun getDessertRecipes(): Flow<ApiResult<RecipeComplexResponse>>
     suspend fun getMainCourseRecipes(): Flow<ApiResult<RecipeComplexResponse>>
     suspend fun getVeganRecipes(): Flow<ApiResult<RecipeComplexResponse>>
+    suspend fun insertRecipe(recipe: RecipeEntity)
+    suspend fun deleteRecipe(recipe: RecipeEntity)
+
 
 }

@@ -1,18 +1,28 @@
 package com.example.recipefinder.feature.home
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipefinder.data.source.DataStoreManager
 import com.example.recipefinder.data.source.RecipeRepository
+import com.example.recipefinder.data.source.toEntity
 import com.example.recipefinder.data.source.toModel
 import com.example.recipefinder.models.RecipeModel
 import com.example.recipefinder.utils.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+
 
 data class HomeState(
     val isLoading: Boolean = false,
@@ -22,12 +32,15 @@ data class HomeState(
     val mainCourseRecipes: List<RecipeModel> = emptyList(),
     val veganRecipes: List<RecipeModel> = emptyList(),
     val isError: Boolean = false
+
 )
 
 @HiltViewModel
 class HomeVM @Inject constructor(
     private val recipeRepository: RecipeRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState
@@ -139,4 +152,34 @@ class HomeVM @Inject constructor(
             }
         }
     }
+
+    fun toggleFavorite(recipe: RecipeModel, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            if (!recipe.isFavorite) {
+                callback(true)
+                withContext(Dispatchers.IO) {
+                    recipe.isFavorite = true
+                }
+                dataStoreManager.saveFavoriteRecipe(recipe.id)
+                recipeRepository.insertRecipe(recipe.toEntity())
+
+            } else {
+                // Favori gibi davranıyoruz
+                callback(false)
+                withContext(Dispatchers.IO) {
+                    recipe.isFavorite = false
+                }
+                dataStoreManager.deleteFavoriteRecipe(recipe.id)
+                recipeRepository.deleteRecipe(recipe.toEntity())
+            }
+        }
+    }
+
+    fun checkIfFavorite(recipeId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val isFavorite = dataStoreManager.isFavorite(recipeId)
+            callback(isFavorite)
+        }
+    }
 }
+

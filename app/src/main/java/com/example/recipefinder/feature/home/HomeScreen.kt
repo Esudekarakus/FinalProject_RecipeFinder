@@ -10,7 +10,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 
 import androidx.compose.runtime.*
@@ -25,6 +27,7 @@ import com.example.recipefinder.models.RecipeModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun HomeScreen(
     viewModel: HomeVM = hiltViewModel(),
     onRecipeClick: (Int) -> Unit
@@ -48,6 +51,9 @@ fun HomeScreen(
                     IconButton(onClick = { /* Bildirimleri Aç */ }) {
                         Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
                     }
+                    IconButton(onClick = { /* Favorileri Göster */ }) {
+                        Icon(Icons.Filled.FavoriteBorder, contentDescription = "Favorites")
+                    }
                 }
             )
         },
@@ -63,7 +69,12 @@ fun HomeScreen(
                     GreetingSection()
                     Spacer(modifier = Modifier.height(16.dp))
                     if (uiState.randomRecipe != null) {
-                        RecommendedRecipeCard(uiState.randomRecipe, onRecipeClick)
+
+                        RecommendedRecipeCard(
+                            recipe = uiState.randomRecipe,
+                            onRecipeClick = onRecipeClick,
+                            viewModel = viewModel
+                        )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -87,6 +98,7 @@ fun HomeScreen(
     )
 }
 
+
 @Composable
 fun GreetingSection() {
     Text(
@@ -100,9 +112,28 @@ fun GreetingSection() {
         color = Color.Gray
     )
 }
-
 @Composable
-fun RecommendedRecipeCard(recipe: RecipeModel, onRecipeClick: (Int) -> Unit) {
+fun RecommendedRecipeCard(
+    recipe: RecipeModel,
+    onRecipeClick: (Int) -> Unit,
+    viewModel: HomeVM
+) {
+    var isFavorite by remember { mutableStateOf(false) }
+
+    // Favori durumunu kontrol etmek için bir işlev
+    val checkAndToggleFavorite: () -> Unit = {
+        viewModel.checkIfFavorite(recipe.id) { favorite ->
+            isFavorite = favorite
+        }
+        viewModel.toggleFavorite(recipe) { newFavorite ->
+            isFavorite = newFavorite
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        checkAndToggleFavorite() // Başlangıçta favori durumunu kontrol et ve güncelle
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,16 +165,27 @@ fun RecommendedRecipeCard(recipe: RecipeModel, onRecipeClick: (Int) -> Unit) {
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(modifier = Modifier.height(6.dp))
+                // Kalbe tıklama işlevi buraya taşındı
                 Icon(
                     Icons.Filled.Favorite,
                     contentDescription = "Favorite",
-                    tint = Color.Red,
-                    modifier = Modifier.size(24.dp)
+                    tint = if (isFavorite) Color.Red else Color.Gray, // Favori ise kırmızı, değilse gri
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            checkAndToggleFavorite() // Kalbe tıkladığında favori durumu kontrol et ve güncelle
+                        }
                 )
             }
         }
     }
 }
+
+
+
+
+
+
 
 @Composable
 fun RecipeCategorySection(
@@ -182,6 +224,6 @@ fun RecipeListItem(recipe: RecipeModel, onRecipeClick: (Int) -> Unit) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = recipe.title, style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(8.dp))
-        Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = Color.Red, modifier = Modifier.size(24.dp))
+        //Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = Color.Red, modifier = Modifier.size(24.dp))
     }
 }
