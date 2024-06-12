@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.recipefinder.models.RecipeModel
 import com.example.recipefinder.feature.favorites.FavoriteVM
@@ -33,7 +34,7 @@ import com.example.recipefinder.feature.favorites.FavoriteVM
 @Composable
 fun FavoriteScreen(
     viewModel: FavoriteVM = hiltViewModel(),
-
+    navController: NavController,
     onRecipeClick: (Int) -> Unit
 ) {
     val favoriteRecipes = viewModel.favoriteRecipes.collectAsState()
@@ -43,7 +44,9 @@ fun FavoriteScreen(
             TopAppBar(
                 title = { Text("Favorite Recipes") },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
