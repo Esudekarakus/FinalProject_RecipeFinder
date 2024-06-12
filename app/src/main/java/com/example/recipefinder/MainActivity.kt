@@ -9,7 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import com.example.recipefinder.feature.favorites.FavoriteScreen
+
 import com.example.recipefinder.feature.home.HomeScreen
+import com.example.recipefinder.feature.recipe.RecipeScreen
 import com.example.recipefinder.ui.theme.RecipeFinderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,10 +29,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RecipeAppNavigationGraph(
-                        modifier = Modifier.fillMaxSize(),
-                        onService = { /* Implement this if needed */ }
-                    )
+                    //RecipeAppNavigationGraph(
+                       // modifier = Modifier.fillMaxSize(),
+                       //onService = { /* Implement this if needed */ })
+
+                      FavoriteScreen(onRecipeClick = {}, onBackClick = {})
                 }
             }
         }
